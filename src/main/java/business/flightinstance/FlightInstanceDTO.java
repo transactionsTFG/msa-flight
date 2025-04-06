@@ -14,4 +14,5 @@ public class FlightInstanceDTO {
 	private double price;
 	private boolean active;
 	private long idFlight;
+	private long idAircraft;
 }

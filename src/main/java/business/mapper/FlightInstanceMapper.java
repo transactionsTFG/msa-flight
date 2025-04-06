@@ -11,5 +11,6 @@ import business.flightinstance.FlightInstanceDTO;
 public interface FlightInstanceMapper {
     FlightInstanceMapper INSTANCE = Mappers.getMapper(FlightInstanceMapper.class);
     @Mapping(target = "idFlight", source = "flight.id")
+    @Mapping(target = "idAircraft", source = "flight.idAircraft")
     FlightInstanceDTO entityToDto(FlightInstance flight);
 }
