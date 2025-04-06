@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Version;
@@ -41,6 +42,7 @@ public class FlightInstance {
     @Column(name = "is_active", nullable = false)
 	private boolean active;
     @ManyToOne(optional = false)
+    @JoinColumn(name = "id_flight", nullable = false)
 	private Flight flight;
     @Version
     @Column(name = "version")
