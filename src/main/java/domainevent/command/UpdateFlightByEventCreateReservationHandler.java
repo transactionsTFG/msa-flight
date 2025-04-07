@@ -20,7 +20,7 @@ public class UpdateFlightByEventCreateReservationHandler extends BaseHandler {
 
     @Override
     public void handleCommand(Object data) {
-        CreateReservationCommand c = (CreateReservationCommand) data;
+        CreateReservationCommand c = this.gson.fromJson(data.toString(), CreateReservationCommand.class);
         List<ReservationWithSeatsDTO> addSeats = c.getFlightInstanceInfo().stream().map(info -> {
             ReservationWithSeatsDTO r = new ReservationWithSeatsDTO();
             r.setIdFlightInstance(info.getIdFlightInstance());
