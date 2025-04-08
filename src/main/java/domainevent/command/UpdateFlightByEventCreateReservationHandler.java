@@ -19,8 +19,8 @@ import msa.commons.microservices.reservationairline.commandevent.CreateReservati
 public class UpdateFlightByEventCreateReservationHandler extends BaseHandler {
 
     @Override
-    public void handleCommand(Object data) {
-        CreateReservationCommand c = this.gson.fromJson(data.toString(), CreateReservationCommand.class);
+    public void handleCommand(String json) {
+        CreateReservationCommand c = this.gson.fromJson(json, CreateReservationCommand.class);
         List<ReservationWithSeatsDTO> addSeats = c.getFlightInstanceInfo().stream().map(info -> {
             ReservationWithSeatsDTO r = new ReservationWithSeatsDTO();
             r.setIdFlightInstance(info.getIdFlightInstance());
