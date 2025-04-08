@@ -31,7 +31,7 @@ public class ValidateFlightByEventCreateReservationHandler extends BaseHandler {
             c.getFlightInstanceInfo().forEach(info -> {
                 info.setPrice(mapFlightInstance.get(info.getIdFlightInstance()).getPrice());
                 info.setIdAircraft(mapFlightInstance.get(info.getIdFlightInstance()).getIdAircraft());
-                info.setTotalOccupiedSeats(mapFlightInstance.get(info.getIdFlightInstance() + info.getNumberSeats()).getPassengerCounter());
+                info.setTotalOccupiedSeats(mapFlightInstance.get(info.getIdFlightInstance()).getPassengerCounter() + info.getNumberSeats());
             });
             this.jmsEventPublisher.publish(EventId.AIRCRAFT_VALIDATE_CAPACITY_RESERVATION_AIRLINE_CREATE_RESERVATION, c);
         }
