@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 
 import business.dto.ReservationWithSeatsDTO;
+import business.exceptions.FlightException;
 import business.flightinstance.FlightInstance;
 import business.flightinstance.FlightInstanceDTO;
 import business.mapper.FlightInstanceMapper;
@@ -44,10 +45,36 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         return true;
     }
 
+    @Override
+    public void updateSagaIdFlightInstance(List<Long> listFlightInstanceIds, String sagaId) {
+        for (Long idFlightInstance : listFlightInstanceIds) {
+            FlightInstance fI = this.entityManager.find(FlightInstance.class, idFlightInstance, LockModeType.OPTIMISTIC);
+            if (fI == null || !fI.isActive())
+                throw new FlightException("FlightInstance not found or not active");
+            if(!fI.getFlight().isActive())
+                throw new FlightException("Flight not active");
+            fI.setSagaId(sagaId);
+            this.entityManager.merge(fI);
+        }
+    }
+
+    @Override
+    public boolean valdateSagaId(List<Long> flightInstances, String sagaId) {
+        for (Long idFlightInstance : flightInstances) {
+            FlightInstance fI = this.entityManager.find(FlightInstance.class, idFlightInstance, LockModeType.OPTIMISTIC);
+            if (fI == null || !fI.isActive())
+                return false;
+            if(!fI.getFlight().isActive())
+                return false;
+            if (!fI.getSagaId().equals(sagaId))
+                return false;
+        }
+        return true;
+    }
+
     @Inject
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
-    
+ 
 }

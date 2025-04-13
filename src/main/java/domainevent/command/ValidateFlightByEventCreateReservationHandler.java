@@ -27,6 +27,7 @@ public class ValidateFlightByEventCreateReservationHandler extends BaseHandler {
         List<Long> listFlightInstances = c.getFlightInstanceInfo().stream().map(IdFlightInstanceInfo::getIdFlightInstance)
                                                                             .toList();
         Map<Long, FlightInstanceDTO> mapFlightInstance = this.flightInstanceService.getFlightInstanceIsActiveById(listFlightInstances);
+        this.flightInstanceService.updateSagaIdFlightInstance(listFlightInstances, eventData.getSagaId());
         if(mapFlightInstance.isEmpty())
             this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, eventData);
         else {

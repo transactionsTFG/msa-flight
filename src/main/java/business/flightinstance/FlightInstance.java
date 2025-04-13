@@ -37,6 +37,8 @@ public class FlightInstance {
 	private String statusFlight;
     @Column(nullable = false, name = "passenger_counter")
 	private int passengerCounter;
+    @Column(nullable = false, name = "saga_id")
+    private String sagaId;
 	@Column(nullable = false, name = "price")
 	private double price;
     @Column(name = "is_active", nullable = false)

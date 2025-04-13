@@ -24,13 +24,15 @@ public class UpdateFlightByEventCreateReservationHandler extends BaseHandler {
     public void handleCommand(String json) {
         EventData eventData = EventData.fromJson(json, CreateReservationCommand.class);
         CreateReservationCommand c = (CreateReservationCommand) eventData.getData();
+        List<Long> listFlightInstances = c.getFlightInstanceInfo().stream().map(info -> info.getIdFlightInstance()).toList();
         List<ReservationWithSeatsDTO> addSeats = c.getFlightInstanceInfo().stream().map(info -> {
             ReservationWithSeatsDTO r = new ReservationWithSeatsDTO();
             r.setIdFlightInstance(info.getIdFlightInstance());
             r.setNewPassengerCounter(info.getNumberSeats());
             return r;
         }).toList();
-        boolean isValid = this.flightInstanceService.addSeats(addSeats);
+        boolean isValid = this.flightInstanceService.valdateSagaId(listFlightInstances, eventData.getSagaId()) && 
+                          this.flightInstanceService.addSeats(addSeats);
         if (isValid) 
             this.jmsEventPublisher.publish(EventId.CUSTOMER_AIRLINE_CREATE_CUSTOMER_RESERVATION_AIRLINE_CREATE_RESERVATION_COMMIT_SAGA, eventData);
         else 
