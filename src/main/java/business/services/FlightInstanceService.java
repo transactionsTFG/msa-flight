@@ -9,6 +9,7 @@ import business.flightinstance.FlightInstanceDTO;
 public interface FlightInstanceService {
     Map<Long, FlightInstanceDTO> getFlightInstanceIsActiveById(List<Long> listFlightInstanceIds);
     boolean addSeats(List<ReservationWithSeatsDTO> addSeats);
+    boolean removeSeats(List<ReservationWithSeatsDTO> addSeats);
     void updateSagaIdFlightInstance(List<Long> listFlightInstanceIds, String sagaId);
     boolean valdateSagaId(List<Long> flightInstances,String sagaId);
 }

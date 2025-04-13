@@ -46,6 +46,18 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
+    public boolean removeSeats(List<ReservationWithSeatsDTO> addSeats) {
+        for (ReservationWithSeatsDTO r : addSeats) {
+            FlightInstance fI = this.entityManager.find(FlightInstance.class, r.getIdFlightInstance(), LockModeType.OPTIMISTIC);
+            if (fI == null || !fI.isActive())
+                return false;
+            fI.setPassengerCounter(fI.getPassengerCounter() - r.getNewPassengerCounter());
+            this.entityManager.merge(fI);
+        }
+        return true;
+    }
+
+    @Override
     public void updateSagaIdFlightInstance(List<Long> listFlightInstanceIds, String sagaId) {
         for (Long idFlightInstance : listFlightInstanceIds) {
             FlightInstance fI = this.entityManager.find(FlightInstance.class, idFlightInstance, LockModeType.OPTIMISTIC);
@@ -76,5 +88,5 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
- 
+
 }

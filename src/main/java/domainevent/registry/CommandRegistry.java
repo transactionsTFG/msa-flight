@@ -12,6 +12,7 @@ import domainevent.command.handler.EventHandler;
 
 import msa.commons.event.EventId;
 import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationQualifier;
+import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationRollbackQualifier;
 import msa.commons.microservices.flight.qualifier.ValidateFlightByEventCreateReservationQualifier;
 
 @Singleton
@@ -20,11 +21,13 @@ public class CommandRegistry {
     private Map<EventId, EventHandler> handlers = new EnumMap<>(EventId.class);
     private EventHandler existFlightInstanceByIdHandler;
     private EventHandler updateFlightByEventCreateReservationHandler;
+    private EventHandler updateFlightByEventCreateReservationRollbackHandler;
 
     @PostConstruct
     public void init(){
         this.handlers.put(EventId.FLIGHT_VALIDATE_FLIGHT_RESERVATION_AIRLINE_CREATE_RESERVATION, existFlightInstanceByIdHandler);
         this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_AIRLINE_CREATE_RESERVATION_COMMIT_SAGA, updateFlightByEventCreateReservationHandler);
+        this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, updateFlightByEventCreateReservationRollbackHandler);
     }
 
     public EventHandler getHandler(EventId eventId) {
@@ -39,5 +42,10 @@ public class CommandRegistry {
     @Inject
     public void setUpdateFlightByEventCreateReservationHandler(@UpdateFlightByEventCreateReservationQualifier EventHandler updateFlightByEventCreateReservationHandler) {
         this.updateFlightByEventCreateReservationHandler = updateFlightByEventCreateReservationHandler;
+    }
+
+    @Inject
+    public void setUpdateFlightByEventCreateReservationRollbackHandler(@UpdateFlightByEventCreateReservationRollbackQualifier EventHandler updateFlightByEventCreateReservationRollbackHandler) {
+        this.updateFlightByEventCreateReservationRollbackHandler = updateFlightByEventCreateReservationRollbackHandler;
     }
 }
