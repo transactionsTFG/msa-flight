@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import business.dto.ReservationWithSeatsDTO;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
+import msa.commons.event.Event;
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
 
@@ -21,7 +22,7 @@ public class UpdateFlightByEventCreateReservationHandler extends BaseHandler {
 
     @Override
     public void handleCommand(String json) {
-        EventData eventData = this.gson.fromJson(json, EventData.class);
+        EventData eventData = EventData.fromJson(json, CreateReservationCommand.class);
         CreateReservationCommand c = (CreateReservationCommand) eventData.getData();
         List<ReservationWithSeatsDTO> addSeats = c.getFlightInstanceInfo().stream().map(info -> {
             ReservationWithSeatsDTO r = new ReservationWithSeatsDTO();

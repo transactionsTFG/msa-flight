@@ -22,7 +22,7 @@ public class ValidateFlightByEventCreateReservationHandler extends BaseHandler {
 
     @Override
     public void handleCommand(String json) {
-        EventData eventData = this.gson.fromJson(json, EventData.class);
+        EventData eventData = EventData.fromJson(json, CreateReservationCommand.class);
         CreateReservationCommand c = (CreateReservationCommand) eventData.getData();
         List<Long> listFlightInstances = c.getFlightInstanceInfo().stream().map(IdFlightInstanceInfo::getIdFlightInstance)
                                                                             .toList();
