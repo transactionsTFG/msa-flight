@@ -6,11 +6,11 @@ import javax.inject.Inject;
 import com.google.gson.Gson;
 
 import business.services.FlightInstanceService;
-import domainevent.publisher.IJMSEventPublisher;
+import domainevent.publisher.IJMSCommandPublisher;
 
 public abstract class BaseHandler implements EventHandler {
     protected FlightInstanceService flightInstanceService;
-    protected IJMSEventPublisher jmsEventPublisher;
+    protected IJMSCommandPublisher jmsEventPublisher;
     protected Gson gson;
     @EJB
     public void setTypeUserServices(FlightInstanceService flightInstanceService) {
@@ -18,7 +18,7 @@ public abstract class BaseHandler implements EventHandler {
     }
 
     @EJB
-    public void setJmsEventPublisher(IJMSEventPublisher jmsEventPublisher) {
+    public void setJmsEventPublisher(IJMSCommandPublisher jmsEventPublisher) {
         this.jmsEventPublisher = jmsEventPublisher;
     }
 

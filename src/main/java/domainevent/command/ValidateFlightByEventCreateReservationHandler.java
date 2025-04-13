@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import business.flightinstance.FlightInstanceDTO;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
+import msa.commons.event.EventData;
 import msa.commons.event.EventId;
 import msa.commons.microservices.flight.qualifier.ValidateFlightByEventCreateReservationQualifier;
 import msa.commons.microservices.reservationairline.commandevent.CreateReservationCommand;
@@ -21,19 +22,20 @@ public class ValidateFlightByEventCreateReservationHandler extends BaseHandler {
 
     @Override
     public void handleCommand(String json) {
-        CreateReservationCommand c = this.gson.fromJson(json, CreateReservationCommand.class);
+        EventData eventData = this.gson.fromJson(json, EventData.class);
+        CreateReservationCommand c = (CreateReservationCommand) eventData.getData();
         List<Long> listFlightInstances = c.getFlightInstanceInfo().stream().map(IdFlightInstanceInfo::getIdFlightInstance)
                                                                             .toList();
         Map<Long, FlightInstanceDTO> mapFlightInstance = this.flightInstanceService.getFlightInstanceIsActiveById(listFlightInstances);
         if(mapFlightInstance.isEmpty())
-            this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, c);
+            this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, eventData);
         else {
             c.getFlightInstanceInfo().forEach(info -> {
                 info.setPrice(mapFlightInstance.get(info.getIdFlightInstance()).getPrice());
                 info.setIdAircraft(mapFlightInstance.get(info.getIdFlightInstance()).getIdAircraft());
                 info.setTotalOccupiedSeats(mapFlightInstance.get(info.getIdFlightInstance()).getPassengerCounter() + info.getNumberSeats());
             });
-            this.jmsEventPublisher.publish(EventId.AIRCRAFT_VALIDATE_CAPACITY_RESERVATION_AIRLINE_CREATE_RESERVATION, c);
+            this.jmsEventPublisher.publish(EventId.AIRCRAFT_VALIDATE_CAPACITY_RESERVATION_AIRLINE_CREATE_RESERVATION, eventData);
         }
     }
     

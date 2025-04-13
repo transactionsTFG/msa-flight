@@ -16,7 +16,7 @@ import msa.commons.microservices.flight.qualifier.ValidateFlightByEventCreateRes
 
 @Singleton
 @Startup
-public class EventHandlerRegistry {
+public class CommandRegistry {
     private Map<EventId, EventHandler> handlers = new EnumMap<>(EventId.class);
     private EventHandler existFlightInstanceByIdHandler;
     private EventHandler updateFlightByEventCreateReservationHandler;
