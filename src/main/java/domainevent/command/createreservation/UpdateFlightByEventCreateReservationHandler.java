@@ -1,4 +1,4 @@
-package domainevent.command;
+package domainevent.command.createreservation;
 
 import java.util.List;
 

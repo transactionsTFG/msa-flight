@@ -22,6 +22,10 @@ public class CommandRegistry {
     private EventHandler existFlightInstanceByIdHandler;
     private EventHandler updateFlightByEventCreateReservationHandler;
     private EventHandler updateFlightByEventCreateReservationRollbackHandler;
+    //TODO: Add 3 event handlers for update reservation
+    private EventHandler validateFlightByEventUpdateReservationHandler1;
+    private EventHandler validateFlightByEventUpdateReservationHandler2;
+    private EventHandler validateFlightByEventUpdateReservationHandler3;
 
     @PostConstruct
     public void init(){
@@ -48,4 +52,5 @@ public class CommandRegistry {
     public void setUpdateFlightByEventCreateReservationRollbackHandler(@UpdateFlightByEventCreateReservationRollbackQualifier EventHandler updateFlightByEventCreateReservationRollbackHandler) {
         this.updateFlightByEventCreateReservationRollbackHandler = updateFlightByEventCreateReservationRollbackHandler;
     }
+
 }
