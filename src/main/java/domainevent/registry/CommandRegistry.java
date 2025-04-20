@@ -17,6 +17,9 @@ import msa.commons.microservices.flight.modifyreservation.qualifier.ValidateFlig
 import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationQualifier;
 import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationRollbackQualifier;
 import msa.commons.microservices.flight.qualifier.ValidateFlightByEventCreateReservationQualifier;
+import msa.commons.microservices.flight.removereservation.qualifier.UpdateFlightByRemoveReservationCommitQualifier;
+import msa.commons.microservices.flight.removereservation.qualifier.UpdateFlightByRemoveReservationRollbackQualifier;
+import msa.commons.microservices.flight.removereservation.qualifier.ValidateFlightByRemoveReservationQualifier;
 
 @Singleton
 @Startup
@@ -30,6 +33,10 @@ public class CommandRegistry {
     private EventHandler existFlightInstanceByEventModifyReservationHandler;
     private EventHandler updateFlightByEventModifyReservationCommitHandler;
     private EventHandler updateFlightByEventModifyReservationRollbackHandler;
+    /* EVENTS OF REMOVE RESERVATION */
+    private EventHandler existFlightInstanceByEventRemoveReservationHandler;
+    private EventHandler updateFlightByEventRemoveReservationCommitHandler;
+    private EventHandler updateFlightByEventRemoveReservationRollbackHandler;
 
     @PostConstruct
     public void init(){
@@ -38,7 +45,10 @@ public class CommandRegistry {
         this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, updateFlightByEventCreateReservationRollbackHandler);
         this.handlers.put(EventId.FLIGHT_VALIDATE_FLIGHT_RESERVATION_AIRLINE_MODIFY_RESERVATION, existFlightInstanceByEventModifyReservationHandler);
         this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_BY_AIRLINE_MODIFY_RESERVATION_COMMIT_SAGA, updateFlightByEventModifyReservationCommitHandler);
-        this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_BY_AIRLINE_MODIFY_RESERVATION_ROLLBACK_SAGA, updateFlightByEventModifyReservationRollbackHandler);    
+        this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_BY_AIRLINE_MODIFY_RESERVATION_ROLLBACK_SAGA, updateFlightByEventModifyReservationRollbackHandler);
+        this.handlers.put(EventId.FLIGHT_VALIDATE_FLIGHT_RESERVATION_AIRLINE_REMOVE_RESERVATION, existFlightInstanceByEventRemoveReservationHandler);
+        this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_BY_AIRLINE_REMOVE_RESERVATION_COMMIT_SAGA, updateFlightByEventRemoveReservationCommitHandler);
+        this.handlers.put(EventId.FLIGHT_UPDATE_FLIGHT_BY_AIRLINE_REMOVE_RESERVATION_ROLLBACK_SAGA, updateFlightByEventRemoveReservationRollbackHandler);    
     }
 
     public EventHandler getHandler(EventId eventId) {
@@ -75,4 +85,18 @@ public class CommandRegistry {
         this.updateFlightByEventModifyReservationRollbackHandler = updateFlightByEventModifyReservationRollbackHandler;
     }
 
+    @Inject
+    public void setExistFlightInstanceByEventRemoveReservationHandler(@ValidateFlightByRemoveReservationQualifier EventHandler existFlightInstanceByEventRemoveReservationHandler) {
+        this.existFlightInstanceByEventRemoveReservationHandler = existFlightInstanceByEventRemoveReservationHandler;
+    }
+
+    @Inject
+    public void setUpdateFlightByEventRemoveReservationCommitHandler(@UpdateFlightByRemoveReservationCommitQualifier EventHandler updateFlightByEventRemoveReservationCommitHandler) {
+        this.updateFlightByEventRemoveReservationCommitHandler = updateFlightByEventRemoveReservationCommitHandler;
+    }
+
+    @Inject
+    public void setUpdateFlightByEventRemoveReservationRollbackHandler(@UpdateFlightByRemoveReservationRollbackQualifier EventHandler updateFlightByEventRemoveReservationRollbackHandler) {
+        this.updateFlightByEventRemoveReservationRollbackHandler = updateFlightByEventRemoveReservationRollbackHandler;
+    }
 }

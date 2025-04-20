@@ -10,6 +10,7 @@ import business.dto.ReservationWithSeatsDTO;
 import business.flightinstance.FlightInstance;
 import business.flightinstance.FlightInstanceDTO;
 import msa.commons.microservices.reservationairline.commandevent.model.IdFlightInstanceInfo;
+import msa.commons.microservices.reservationairline.removereservation.command.IdWithSeats;
 import msa.commons.microservices.reservationairline.updatereservation.model.Action;
 import msa.commons.microservices.reservationairline.updatereservation.model.IdUpdateFlightInstanceInfo;
 
@@ -19,6 +20,16 @@ public interface FlightInstanceMapper {
     @Mapping(target = "idFlight", source = "flight.id")
     @Mapping(target = "idAircraft", source = "flight.idAircraft")
     FlightInstanceDTO entityToDto(FlightInstance flight);
+
+    static List<ReservationWithSeatsDTO> idWithSeatsToReservationWithSeatsDTO(List<IdWithSeats> flightInstances) {
+        return flightInstances.stream().map(flightInstance -> {
+            ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
+            reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
+            reservationWithSeatsDTO.setNewPassengerCounter(flightInstance.getSeats());
+            return reservationWithSeatsDTO;
+        })
+        .toList();
+    }
 
     static List<ReservationWithSeatsDTO> idFlightInstanceInfoToReservationWithSeatsDTO(List<IdFlightInstanceInfo> flightInstances) {
         return flightInstances.stream().map(flightInstance -> {
