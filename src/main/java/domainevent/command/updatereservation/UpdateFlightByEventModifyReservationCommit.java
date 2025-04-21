@@ -31,9 +31,9 @@ public class UpdateFlightByEventModifyReservationCommit extends BaseHandler {
                           this.flightInstanceService.removeSeats(removeSeats);
         if (isValid) {
             c.setAllFlightUpdate(isValid);
-            this.jmsEventPublisher.publish(EventId.CUSTOMER_AIRLINE_CREATE_CUSTOMER_RESERVATION_AIRLINE_CREATE_RESERVATION_COMMIT_SAGA, eventData);
+            this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_MODIFY_RESERVATION_COMMIT_SAGA, eventData);
         } else 
-            this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_CREATE_RESERVATION_ROLLBACK_SAGA, eventData);
+            this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_MODIFY_RESERVATION_ROLLBACK_SAGA, eventData);
     }
     
 }

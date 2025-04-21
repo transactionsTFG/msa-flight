@@ -43,7 +43,7 @@ public interface FlightInstanceMapper {
 
     static List<ReservationWithSeatsDTO> idFlightInstanceInfoToModReservationWithAddSeatsDTO(List<IdUpdateFlightInstanceInfo> flightInstances) {
         return flightInstances.stream()
-            .filter(flightInstance -> !flightInstance.getAction().equals(Action.ADD_SEATS))
+            .filter(flightInstance -> flightInstance.getAction().equals(Action.ADD_SEATS))
             .map(flightInstance -> {
                 ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
                 reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
@@ -55,7 +55,7 @@ public interface FlightInstanceMapper {
 
     static List<ReservationWithSeatsDTO> idFlightInstanceInfoToModReservationWithRemoveSeatsDTO(List<IdUpdateFlightInstanceInfo> flightInstances) {
         return flightInstances.stream()
-            .filter(flightInstance -> flightInstance.getAction().equals(Action.ADD_SEATS))    
+            .filter(flightInstance -> !flightInstance.getAction().equals(Action.ADD_SEATS))    
             .map(flightInstance -> {
                 ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
                 reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
