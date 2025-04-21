@@ -42,26 +42,26 @@ public interface FlightInstanceMapper {
     }
 
     static List<ReservationWithSeatsDTO> idFlightInstanceInfoToModReservationWithAddSeatsDTO(List<IdUpdateFlightInstanceInfo> flightInstances) {
-        return flightInstances.stream().map(flightInstance -> {
-            if (!flightInstance.getAction().equals(Action.ADD_SEATS))
-                return null;
-            ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
-            reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
-            reservationWithSeatsDTO.setNewPassengerCounter(flightInstance.getNumberSeats());
-            return reservationWithSeatsDTO;
-        })
+        return flightInstances.stream()
+            .filter(flightInstance -> !flightInstance.getAction().equals(Action.ADD_SEATS))
+            .map(flightInstance -> {
+                ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
+                reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
+                reservationWithSeatsDTO.setNewPassengerCounter(flightInstance.getNumberSeats());
+                return reservationWithSeatsDTO;
+            })
         .toList();
     }
 
     static List<ReservationWithSeatsDTO> idFlightInstanceInfoToModReservationWithRemoveSeatsDTO(List<IdUpdateFlightInstanceInfo> flightInstances) {
-        return flightInstances.stream().map(flightInstance -> {
-            if (flightInstance.getAction().equals(Action.ADD_SEATS))
-                return null;
-            ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
-            reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
-            reservationWithSeatsDTO.setNewPassengerCounter(flightInstance.getNumberSeats());
-            return reservationWithSeatsDTO;
-        })
-        .toList();
+        return flightInstances.stream()
+            .filter(flightInstance -> flightInstance.getAction().equals(Action.ADD_SEATS))    
+            .map(flightInstance -> {
+                ReservationWithSeatsDTO reservationWithSeatsDTO = new ReservationWithSeatsDTO();
+                reservationWithSeatsDTO.setIdFlightInstance(flightInstance.getIdFlightInstance());
+                reservationWithSeatsDTO.setNewPassengerCounter(flightInstance.getNumberSeats());
+                return reservationWithSeatsDTO;
+            })
+            .toList();
     }
 }
