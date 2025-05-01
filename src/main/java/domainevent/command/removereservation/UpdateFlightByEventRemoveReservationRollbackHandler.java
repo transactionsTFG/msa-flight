@@ -10,8 +10,8 @@ import business.mapper.FlightInstanceMapper;
 import business.qualifier.removereservation.UpdateFlightByRemoveReservationRollbackQualifier;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
+import msa.commons.commands.removereservation.RemoveReservationCommand;
 import msa.commons.event.EventData;
-import msa.commons.microservices.reservationairline.removereservation.command.RemoveReservationCommand;
 
 @Stateless
 @UpdateFlightByRemoveReservationRollbackQualifier

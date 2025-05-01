@@ -10,11 +10,12 @@ import business.flightinstance.FlightInstanceDTO;
 import business.qualifier.modifyreservation.ValidateFlightByModifyReservation;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
+import msa.commons.commands.modifyreservation.UpdateReservationCommand;
+import msa.commons.commands.modifyreservation.model.Action;
+import msa.commons.commands.modifyreservation.model.IdUpdateFlightInstanceInfo;
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
-import msa.commons.microservices.reservationairline.updatereservation.command.UpdateReservationCommand;
-import msa.commons.microservices.reservationairline.updatereservation.model.Action;
-import msa.commons.microservices.reservationairline.updatereservation.model.IdUpdateFlightInstanceInfo;
+
 
 @Stateless
 @ValidateFlightByModifyReservation

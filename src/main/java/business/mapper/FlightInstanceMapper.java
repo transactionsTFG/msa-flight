@@ -9,10 +9,11 @@ import org.mapstruct.factory.Mappers;
 import business.dto.ReservationWithSeatsDTO;
 import business.flightinstance.FlightInstance;
 import business.flightinstance.FlightInstanceDTO;
-import msa.commons.microservices.reservationairline.commandevent.model.IdFlightInstanceInfo;
-import msa.commons.microservices.reservationairline.removereservation.command.IdWithSeats;
-import msa.commons.microservices.reservationairline.updatereservation.model.Action;
-import msa.commons.microservices.reservationairline.updatereservation.model.IdUpdateFlightInstanceInfo;
+import msa.commons.commands.createreservation.model.IdFlightInstanceInfo;
+import msa.commons.commands.modifyreservation.model.Action;
+import msa.commons.commands.modifyreservation.model.IdUpdateFlightInstanceInfo;
+import msa.commons.commands.removereservation.IdWithSeats;
+
 
 @Mapper
 public interface FlightInstanceMapper {

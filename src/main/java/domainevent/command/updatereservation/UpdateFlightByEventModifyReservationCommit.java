@@ -10,9 +10,9 @@ import business.mapper.FlightInstanceMapper;
 import business.qualifier.modifyreservation.UpdateFlightByModifyReservationCommit;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
+import msa.commons.commands.modifyreservation.UpdateReservationCommand;
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
-import msa.commons.microservices.reservationairline.updatereservation.command.UpdateReservationCommand;
 
 @Stateless
 @UpdateFlightByModifyReservationCommit
