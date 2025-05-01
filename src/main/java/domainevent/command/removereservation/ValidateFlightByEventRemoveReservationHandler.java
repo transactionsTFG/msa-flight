@@ -7,11 +7,11 @@ import javax.ejb.Local;
 import javax.ejb.Stateless;
 
 import business.flightinstance.FlightInstanceDTO;
+import business.qualifier.removereservation.ValidateFlightByRemoveReservationQualifier;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
-import msa.commons.microservices.flight.removereservation.qualifier.ValidateFlightByRemoveReservationQualifier;
 import msa.commons.microservices.reservationairline.removereservation.command.IdWithSeats;
 import msa.commons.microservices.reservationairline.removereservation.command.RemoveReservationCommand;
 

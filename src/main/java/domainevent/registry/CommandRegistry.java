@@ -8,18 +8,19 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
 
+import business.qualifier.createreservation.UpdateFlightByEventCreateReservationQualifier;
+import business.qualifier.createreservation.UpdateFlightByEventCreateReservationRollbackQualifier;
+import business.qualifier.createreservation.ValidateFlightByEventCreateReservationQualifier;
+import business.qualifier.modifyreservation.UpdateFlightByModifyReservationCommit;
+import business.qualifier.modifyreservation.UpdateFlightByModifyReservationRollback;
+import business.qualifier.modifyreservation.ValidateFlightByModifyReservation;
+import business.qualifier.removereservation.UpdateFlightByRemoveReservationCommitQualifier;
+import business.qualifier.removereservation.UpdateFlightByRemoveReservationRollbackQualifier;
+import business.qualifier.removereservation.ValidateFlightByRemoveReservationQualifier;
 import domainevent.command.handler.EventHandler;
 
 import msa.commons.event.EventId;
-import msa.commons.microservices.flight.modifyreservation.qualifier.UpdateFlightByModifyReservationCommit;
-import msa.commons.microservices.flight.modifyreservation.qualifier.UpdateFlightByModifyReservationRollback;
-import msa.commons.microservices.flight.modifyreservation.qualifier.ValidateFlightByModifyReservation;
-import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationQualifier;
-import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationRollbackQualifier;
-import msa.commons.microservices.flight.qualifier.ValidateFlightByEventCreateReservationQualifier;
-import msa.commons.microservices.flight.removereservation.qualifier.UpdateFlightByRemoveReservationCommitQualifier;
-import msa.commons.microservices.flight.removereservation.qualifier.UpdateFlightByRemoveReservationRollbackQualifier;
-import msa.commons.microservices.flight.removereservation.qualifier.ValidateFlightByRemoveReservationQualifier;
+
 
 @Singleton
 @Startup

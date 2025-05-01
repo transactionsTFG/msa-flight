@@ -7,10 +7,10 @@ import javax.ejb.Stateless;
 
 import business.dto.ReservationWithSeatsDTO;
 import business.mapper.FlightInstanceMapper;
+import business.qualifier.removereservation.UpdateFlightByRemoveReservationRollbackQualifier;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
 import msa.commons.event.EventData;
-import msa.commons.microservices.flight.removereservation.qualifier.UpdateFlightByRemoveReservationRollbackQualifier;
 import msa.commons.microservices.reservationairline.removereservation.command.RemoveReservationCommand;
 
 @Stateless

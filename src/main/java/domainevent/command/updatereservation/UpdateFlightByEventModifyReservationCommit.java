@@ -7,11 +7,11 @@ import javax.ejb.Stateless;
 
 import business.dto.ReservationWithSeatsDTO;
 import business.mapper.FlightInstanceMapper;
+import business.qualifier.modifyreservation.UpdateFlightByModifyReservationCommit;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
-import msa.commons.microservices.flight.modifyreservation.qualifier.UpdateFlightByModifyReservationCommit;
 import msa.commons.microservices.reservationairline.updatereservation.command.UpdateReservationCommand;
 
 @Stateless

@@ -7,13 +7,13 @@ import javax.ejb.Stateless;
 
 import business.dto.ReservationWithSeatsDTO;
 import business.mapper.FlightInstanceMapper;
+import business.qualifier.createreservation.UpdateFlightByEventCreateReservationQualifier;
 import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
 
 import msa.commons.event.EventData;
 import msa.commons.event.EventId;
 
-import msa.commons.microservices.flight.qualifier.UpdateFlightByEventCreateReservationQualifier;
 import msa.commons.microservices.reservationairline.commandevent.CreateReservationCommand;
 
 @Stateless
