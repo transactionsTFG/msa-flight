@@ -12,6 +12,8 @@ import domainevent.command.handler.BaseHandler;
 import domainevent.command.handler.EventHandler;
 import msa.commons.commands.removereservation.RemoveReservationCommand;
 import msa.commons.event.EventData;
+import msa.commons.event.EventId;
+import msa.commons.event.eventoperation.reservation.DeleteReservation;
 
 @Stateless
 @UpdateFlightByRemoveReservationRollbackQualifier
@@ -26,6 +28,8 @@ public class UpdateFlightByEventRemoveReservationRollbackHandler extends BaseHan
             List<ReservationWithSeatsDTO> addSeats = FlightInstanceMapper.idWithSeatsToReservationWithSeatsDTO(c.getListIdFlightInstance());
             this.flightInstanceService.addSeats(addSeats);
         }
+        eventData.setOperation(DeleteReservation.DELETE_RESERVATION_ONLY_AIRLINE_ROLLBACK);
+        this.jmsEventPublisher.publish(EventId.REMOVE_RESERVATION_TRAVEL, eventData);
     }
     
 }
