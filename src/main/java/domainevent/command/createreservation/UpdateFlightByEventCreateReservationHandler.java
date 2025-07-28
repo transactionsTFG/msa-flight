@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
+import business.dto.MinAndMaxDateDTO;
 import business.dto.ReservationWithSeatsDTO;
 import business.mapper.FlightInstanceMapper;
 import business.qualifier.createreservation.UpdateFlightByEventCreateReservationQualifier;
@@ -29,6 +30,9 @@ public class UpdateFlightByEventCreateReservationHandler extends BaseHandler {
         boolean isValid = this.flightInstanceService.valdateSagaId(listFlightInstances, eventData.getSagaId()) && 
                           this.flightInstanceService.addSeats(addSeats);
         if (isValid) {
+            MinAndMaxDateDTO minAndMaxDate = this.flightInstanceService.getMinAndMaxDateFlightInstances(listFlightInstances);
+            c.setMinDateTime(minAndMaxDate.getMinDate());
+            c.setMaxDateTime(minAndMaxDate.getMaxDate());
             c.setAllFlightBuy(isValid);
             this.jmsEventPublisher.publish(EventId.CUSTOMER_AIRLINE_CREATE_CUSTOMER_RESERVATION_AIRLINE_CREATE_RESERVATION_COMMIT_SAGA, eventData);
         } else 

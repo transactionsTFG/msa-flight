@@ -1,5 +1,7 @@
 package business.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 
+import business.dto.MinAndMaxDateDTO;
 import business.dto.ReservationWithSeatsDTO;
 import business.exceptions.FlightException;
 import business.flightinstance.FlightInstance;
@@ -87,6 +90,26 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     @Inject
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public MinAndMaxDateDTO getMinAndMaxDateFlightInstances(List<Long> idFlightInstance) {
+        LocalDateTime minDate = null;
+        LocalDateTime maxDate = null;
+        for (Long id : idFlightInstance) {
+            FlightInstance fI = this.entityManager.find(FlightInstance.class, id, LockModeType.OPTIMISTIC);
+            if (fI == null || !fI.isActive() || !fI.getFlight().isActive())
+                continue;
+            LocalDateTime departureDateTime = fI.getFlight().getArrivalTime().atDate(fI.getArrivalDate());
+            LocalDateTime arrivalDateTime = fI.getFlight().getDepartureTime().atDate(fI.getDepartureDate());
+            if (minDate == null || departureDateTime.isBefore(minDate)) 
+                minDate = departureDateTime;
+            
+            if (maxDate == null || arrivalDateTime.isAfter(maxDate))
+                maxDate = arrivalDateTime;
+            
+        }
+        return new MinAndMaxDateDTO(minDate, maxDate);
     }
 
 }
