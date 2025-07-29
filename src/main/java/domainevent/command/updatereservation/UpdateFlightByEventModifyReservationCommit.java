@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Local;
 import javax.ejb.Stateless;
 
+import business.dto.MinAndMaxDateDTO;
 import business.dto.ReservationWithSeatsDTO;
 import business.mapper.FlightInstanceMapper;
 import business.qualifier.modifyreservation.UpdateFlightByModifyReservationCommit;
@@ -31,6 +32,9 @@ public class UpdateFlightByEventModifyReservationCommit extends BaseHandler {
                           this.flightInstanceService.removeSeats(removeSeats);
         if (isValid) {
             c.setAllFlightUpdate(isValid);
+            MinAndMaxDateDTO info = this.flightInstanceService.getMinAndMaxDateFlightInstances(c.getIdFlightInstances());
+            c.setMinDateTime(info.getMinDate());
+            c.setMaxDateTime(info.getMaxDate());
             this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_MODIFY_RESERVATION_COMMIT_SAGA, eventData);
         } else 
             this.jmsEventPublisher.publish(EventId.RESERVATION_AIRLINE_MODIFY_RESERVATION_ROLLBACK_SAGA, eventData);
