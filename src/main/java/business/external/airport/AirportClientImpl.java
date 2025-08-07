@@ -25,5 +25,14 @@ public class AirportClientImpl implements AirportClient {
                             .request()
                             .get(new GenericType<List<AirportDTO>>() {});
     }
+
+    @Override
+    public AirportDTO getAirportById(long id) {
+        return this.client.target(PATH + "/" + id)
+                            .request()
+                            .get(AirportDTO.class);
+    }
+
+    
     
 }

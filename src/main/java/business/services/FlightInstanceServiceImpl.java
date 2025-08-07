@@ -22,6 +22,7 @@ import business.dto.ReservationWithSeatsDTO;
 import business.exceptions.FlightException;
 import business.external.airport.AirportClient;
 import business.external.airport.AirportDTO;
+import business.external.country.CountryClient;
 import business.flight.Flight;
 import business.flight.FlightDTO;
 import business.flightinstance.FlightInstance;
@@ -33,6 +34,7 @@ import business.mapper.FlightMapper;
 public class FlightInstanceServiceImpl implements FlightInstanceService {
     private EntityManager entityManager;
     private AirportClient airportClient;
+    private CountryClient countryClient;
     
     @Override
     public FlightDTO getFlightById(long idFlight) {
@@ -111,8 +113,8 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         return entityManager.createQuery(cq)
                 .getResultList()
                 .stream()
-                .map(FlightMapper.INSTANCE::entityToDto)
-                .toList();           
+                .map(f -> FlightMapper.INSTANCE.entityToDto(f, this.countryClient.getCountryById(this.airportClient.getAirportById(f.getIdDestinationAirport()).getCountryId()).getName()))
+                .toList();
     }
         
 
@@ -211,7 +213,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         return FlightInstanceMapper.INSTANCE.entityToDto(flightInstance);
     }
 
-     @Inject
+    @Inject
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -219,6 +221,11 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     @Inject
     public void setAirportClient(AirportClient airportClient) {
         this.airportClient = airportClient;
+    }
+
+    @Inject
+    public void setCountryClient(CountryClient countryClient) {
+        this.countryClient = countryClient;
     }
 
 }

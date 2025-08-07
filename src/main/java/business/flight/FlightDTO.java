@@ -15,4 +15,5 @@ public class FlightDTO {
     private Long idAircraft;
     private Long idOriginAirport;
     private Long idDestinationAirport;
+    private String countryDestination;
 }

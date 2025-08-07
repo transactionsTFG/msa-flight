@@ -10,4 +10,6 @@ import business.flight.FlightDTO;
 public interface FlightMapper {
     FlightMapper INSTANCE = Mappers.getMapper(FlightMapper.class);
     FlightDTO entityToDto(Flight flight);
+    
+    FlightDTO entityToDto(Flight flight, String countryDestination);
 }
