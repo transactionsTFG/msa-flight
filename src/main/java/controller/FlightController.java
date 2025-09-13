@@ -41,7 +41,7 @@ public class FlightController {
     }
 
     @GET
-    @Path("/instance/{intanceId}")
+    @Path("/instance/{instanceId}")
     public FlightInstanceDTO getFlightInstance(@PathParam("instanceId") long instanceId) {
         LOGGER.info("Fetching flight instance with ID: {}", instanceId);
         return this.flightInstanceService.getFlightInstanceById(instanceId);
