@@ -44,7 +44,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     }
 
     @Override
-    public List<FlightDTO> getFlightsByParams(FlightParamsDTO params) {
+    public List<FlightInstanceDTO> getFlightsByParams(FlightParamsDTO params) {
         List<Long> originAirportIds = null;
         if (params.getCountryOrigin() != null && !params.getCountryOrigin().isBlank()) {
             originAirportIds = airportClient
@@ -109,12 +109,21 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
 
         // WHERE p1 AND p2 AND …
         cq.where(cb.and(predicates.toArray(new Predicate[0])));
-
-        return entityManager.createQuery(cq)
+        List<FlightInstanceDTO> flightInstances = new ArrayList<>(); 
+        entityManager.createQuery(cq)
                 .getResultList()
                 .stream()
-                .map(f -> FlightMapper.INSTANCE.entityToDto(f, this.countryClient.getCountryById(this.airportClient.getAirportById(f.getIdDestinationAirport()).getCountryId()).getName()))
-                .toList();
+                .forEach(f -> { 
+                    for (FlightInstance fI : f.getFlightInstance()) {
+                        FlightInstanceDTO dto = FlightInstanceMapper.INSTANCE.entityToDto(fI);
+                        dto.setWeekDay(f.getWeekDay());
+                        dto.setCityDestination(airportClient.getAirportById(f.getIdDestinationAirport()).getCity());
+                        dto.setCountryOrigin(countryClient.getCountryById(airportClient.getAirportById(f.getIdOriginAirport()).getCountryId()).getName());
+                        dto.setCountryDestination(countryClient.getCountryById(airportClient.getAirportById(f.getIdDestinationAirport()).getCountryId()).getName());
+                        flightInstances.add(dto);
+                    }
+                });
+        return flightInstances;
     }
         
 
@@ -210,7 +219,12 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
             throw new FlightException("Flight instance not found or not active");
         if (!flightInstance.getFlight().isActive())
             throw new FlightException("Flight not active");
-        return FlightInstanceMapper.INSTANCE.entityToDto(flightInstance);
+        FlightInstanceDTO fI = FlightInstanceMapper.INSTANCE.entityToDto(flightInstance);
+        fI.setWeekDay(flightInstance.getFlight().getWeekDay());
+        fI.setCityDestination(airportClient.getAirportById(flightInstance.getFlight().getIdDestinationAirport()).getCity());
+        fI.setCountryOrigin(countryClient.getCountryById(airportClient.getAirportById(flightInstance.getFlight().getIdOriginAirport()).getCountryId()).getName());
+        fI.setCountryDestination(countryClient.getCountryById(airportClient.getAirportById(flightInstance.getFlight().getIdDestinationAirport()).getCountryId()).getName());
+        return fI;
     }
 
     @Inject

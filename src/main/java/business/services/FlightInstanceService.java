@@ -11,7 +11,7 @@ import business.flightinstance.FlightInstanceDTO;
 
 public interface FlightInstanceService {
     FlightDTO getFlightById(long idFlight);
-    List<FlightDTO> getFlightsByParams(FlightParamsDTO params);
+    List<FlightInstanceDTO> getFlightsByParams(FlightParamsDTO params);
     FlightInstanceDTO getFlightInstanceById(long instanceId);
     Map<Long, FlightInstanceDTO> getFlightInstanceIsActiveById(List<Long> listFlightInstanceIds);
     boolean addSeats(List<ReservationWithSeatsDTO> addSeats);

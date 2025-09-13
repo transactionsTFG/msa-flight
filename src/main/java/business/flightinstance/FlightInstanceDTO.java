@@ -15,4 +15,8 @@ public class FlightInstanceDTO {
 	private boolean active;
 	private long idFlight;
 	private long idAircraft;
+	private String weekDay;
+	private String cityDestination;
+	private String countryOrigin;
+	private String countryDestination;
 }

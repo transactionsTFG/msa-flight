@@ -35,7 +35,7 @@ public class FlightController {
 
     @GET
     @Path("/flight-info")
-    public List<FlightDTO> getFlightInfo(@BeanParam FlightParamsDTO flightParams) {
+    public List<FlightInstanceDTO> getFlightInfo(@BeanParam FlightParamsDTO flightParams) {
         LOGGER.info("Fetching flight information with parameters: {}", flightParams);
         return this.flightInstanceService.getFlightsByParams(flightParams);
     }
