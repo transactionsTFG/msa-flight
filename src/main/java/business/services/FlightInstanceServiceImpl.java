@@ -46,7 +46,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
     @Override
     public List<FlightDTO> getFlightsByParams(FlightParamsDTO params) {
         List<Long> originAirportIds = null;
-        if (params.getCountryOrigin() != null) {
+        if (params.getCountryOrigin() != null && !params.getCountryOrigin().isEmpty()) {
             originAirportIds = airportClient
                 .getAirportsByCountry(params.getCountryOrigin())
                 .stream()
@@ -55,7 +55,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
         }
 
         List<Long> destinationAirportIds = null;
-        if (params.getCountryDestination() != null) {
+        if (params.getCountryDestination() != null && !params.getCountryDestination().isEmpty()) {
             destinationAirportIds = airportClient
                 .getAirportsByCountry(params.getCountryDestination())
                 .stream()
@@ -63,7 +63,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
                 .toList();
         }
 
-        if (params.getCityOrigin() != null) {
+        if (params.getCityOrigin() != null && !params.getCityOrigin().isEmpty()) {
             List<Long> cityAirportId = airportClient.getAirportsByCityName(params.getCityOrigin()).stream()
                     .map(AirportDTO::getId)
                     .toList();
@@ -74,7 +74,7 @@ public class FlightInstanceServiceImpl implements FlightInstanceService {
                                     .toList();
         }
 
-        if (params.getCityDestination() != null) {
+        if (params.getCityDestination() != null && !params.getCityDestination().isEmpty()) {
             List<Long> cityAirportId = airportClient.getAirportsByCityName(params.getCityDestination()).stream()
                     .map(AirportDTO::getId)
                     .toList();

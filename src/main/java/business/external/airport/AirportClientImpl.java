@@ -14,21 +14,21 @@ public class AirportClientImpl implements AirportClient {
 
     @Override
     public List<AirportDTO> getAirportsByCityName(String city) {
-        return this.client.target(PATH + "/city/" + city)
+        return this.client.target(PATH + "city/" + city)
                             .request()
                             .get(new GenericType<List<AirportDTO>>() {});
     }
 
     @Override
     public List<AirportDTO> getAirportsByCountry(String countryName) {
-        return this.client.target(PATH + "/country/" + countryName)
+        return this.client.target(PATH + "country/" + countryName)
                             .request()
                             .get(new GenericType<List<AirportDTO>>() {});
     }
 
     @Override
     public AirportDTO getAirportById(long id) {
-        return this.client.target(PATH + "/" + id)
+        return this.client.target(PATH + id)
                             .request()
                             .get(AirportDTO.class);
     }

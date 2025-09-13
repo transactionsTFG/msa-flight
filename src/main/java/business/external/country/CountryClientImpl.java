@@ -7,11 +7,11 @@ import javax.ws.rs.client.ClientBuilder;
 @Stateless
 public class CountryClientImpl implements CountryClient{
     private Client client = ClientBuilder.newClient();
-    private static final String PATH = "http://localhost:9001/country/";
+    private static final String PATH = "http://localhost:9001/msa-country/api/country/";
 
     @Override
     public CountryDTO getCountryName(String name) {
-        return this.client.target(PATH + name)
+        return this.client.target(PATH + "name/" + name)
                 .request()
                 .get(CountryDTO.class);
     }
