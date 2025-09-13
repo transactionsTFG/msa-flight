@@ -26,6 +26,11 @@ public class ValidateFlightByEventModifyReservation extends BaseHandler {
     public void handleCommand(String json) {
         EventData eventData = EventData.fromJson(json, UpdateReservationCommand.class);
         UpdateReservationCommand u = (UpdateReservationCommand) eventData.getData();
+        if (u.getFlightInstanceInfo().isEmpty()) {
+            this.jmsEventPublisher.publish(EventId.AIRCRAFT_VALIDATE_CAPACITY_RESERVATION_AIRLINE_MODIFY_RESERVATION, eventData);
+            return;   
+        }
+        
         List<Long> listFlightInstances = u.getFlightInstanceInfo().stream().map(IdUpdateFlightInstanceInfo::getIdFlightInstance).toList();
         Map<Long, FlightInstanceDTO> mapFlightInstance = this.flightInstanceService.getFlightInstanceIsActiveById(listFlightInstances);
         this.flightInstanceService.updateSagaIdFlightInstance(listFlightInstances, eventData.getSagaId());
